@@ -1,25 +1,61 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { useFormik } from "formik";
 
-function App() {
+const App = () => {
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    onSubmit: (values) => {
+      alert("Login Successful");
+    },
+    validate: (values) => {
+      let errors = {};
+      if (!values.email) errors.email = "Field required";
+      if (!values.password) errors.password = "Field required";
+      return errors;
+    },
+  });
+
+  const { handleSubmit, handleChange, values, errors } = formik;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <form onSubmit={handleSubmit}>
+        <div>Email:</div>
+        <input
+          id="emailField"
+          type="text"
+          name="email"
+          onChange={handleChange}
+          value={values.email}
+        />
+        {errors.email && (
+          <div id="emailError" style={{ color: "red" }}>
+            {errors.email}
+          </div>
+        )}
+        <div>Password:</div>
+        <input
+          id="pswField"
+          type="text"
+          name="password"
+          onChange={handleChange}
+          value={values.password}
+        />
+        <br />
+        {errors.password && (
+          <div id="pswError" style={{ color: "red" }}>
+            {errors.password}
+          </div>
+        )}
+        <button id="submitBtn" type="submit">
+          Submit
+        </button>
+      </form>
     </div>
   );
-}
+};
 
 export default App;
